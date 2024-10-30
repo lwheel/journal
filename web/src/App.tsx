@@ -1,29 +1,19 @@
-import { cn } from "@/lib/utils";
 import Sidebar from "@/components/sidebar";
 import Feed from "@/components/feed";
-
-const DEBUG = false;
+import { useState } from "react";
 
 function App() {
+  const [showAddPost, setShowAddPost] = useState<boolean>(false);
+
   return (
     <div className="flex min-h-dvh">
-      <div
-        className={cn("flex-1 min-w-14", {
-          "border-r-2": DEBUG,
-        })}
-      >
-        <Sidebar />
+      <div className="flex-1 min-w-14">
+        <Sidebar showAddPost={showAddPost} setShowAddPost={setShowAddPost} />
       </div>
       <div className="w-full max-w-md mx-auto md:max-w-lg">
-         <Feed />
+        <Feed showAddPost={showAddPost} setShowAddPost={setShowAddPost} />
       </div>
-      <div
-        className={cn("flex-1", {
-          "border-l-2": DEBUG,
-        })}
-      >
-        {/* Placeholder for another sidebar */}
-      </div>
+      <div className="flex-1">{/* Placeholder for another sidebar */}</div>
     </div>
   );
 }
