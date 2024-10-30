@@ -4,7 +4,7 @@ import db from "@/data/db.json";
 import Post from "./post";
 
 const Posts = () => {
-  const [posts, setPosts] = useState<PostType[]>(db.posts);
+  const [posts] = useState<PostType[]>(db.posts);
 
   return (
     <div>
