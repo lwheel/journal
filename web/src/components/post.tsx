@@ -5,15 +5,14 @@ import { useState } from "react";
 
 type PostProps = {
   post: PostType;
-  setPosts: React.Dispatch<React.SetStateAction<PostType[]>>;
 };
 
-const Post = ({ post, setPosts }: PostProps) => {
+ const Post = ({ post }: PostProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   if (isEditing) {
     return (
-      <EditPost post={post} setPosts={setPosts} setIsEditing={setIsEditing} />
+       <EditPost post={post} setIsEditing={setIsEditing} />
     );
   }
 
@@ -29,11 +28,7 @@ const Post = ({ post, setPosts }: PostProps) => {
             minute: "numeric",
           })}
         </div>
-        <PostActions
-          post={post}
-          setPosts={setPosts}
-          setIsEditing={setIsEditing}
-        />
+         <PostActions post={post} setIsEditing={setIsEditing} />
       </div>
       <p className="p-4">{post.content}</p>
     </div>

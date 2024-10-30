@@ -4,14 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { editPost } from "@/data/api";
 import { PostType } from "@/data/types";
+ import { updatePostContent } from "@/lib/store";
 
 type EditPostProps = {
   post: PostType;
-  setPosts: React.Dispatch<React.SetStateAction<PostType[]>>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const EditPost = ({ post, setPosts, setIsEditing }: EditPostProps) => {
+ const EditPost = ({ post, setIsEditing }: EditPostProps) => {
   const [id, setId] = useState("");
   const [content, setContent] = useState("");
 
@@ -31,14 +31,7 @@ const EditPost = ({ post, setPosts, setIsEditing }: EditPostProps) => {
     e.preventDefault();
     if (content) {
       await editPost(id, content);
-      setPosts((prevPosts) =>
-        prevPosts.map((p) => {
-          if (p.id === id) {
-            return { ...p, content: content };
-          }
-          return p;
-        }),
-      );
+       updatePostContent(id, content);
       setContent("");
       setIsEditing(false);
     }

@@ -3,14 +3,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { createPost } from "@/data/api";
-import { PostType } from "@/data/types";
+ import { addPost } from "@/lib/store";
 
 type AddPostProps = {
-  setPosts: React.Dispatch<React.SetStateAction<PostType[]>>;
   setShowAddPost: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AddPost = ({ setPosts, setShowAddPost }: AddPostProps) => {
+
+ const AddPost = ({ setShowAddPost }: AddPostProps) => {
   const [content, setContent] = useState("");
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -21,7 +21,7 @@ const AddPost = ({ setPosts, setShowAddPost }: AddPostProps) => {
     e.preventDefault();
     if (content) {
       const post = await createPost(content);
-      setPosts((prevPosts) => [post, ...prevPosts]);
+       addPost(post);
       setContent("");
       setShowAddPost(false);
     }
