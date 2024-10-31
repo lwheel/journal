@@ -4,7 +4,7 @@ export const posts = sqliteTable("posts", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   content: text("content").notNull(),
   date: integer("date", { mode: "timestamp" }).notNull(),
-  userId: integer("user_id")
+  userId: integer("user_id") // 👈 Look here
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
 });
@@ -16,7 +16,7 @@ export const comments = sqliteTable("comments", {
   postId: integer("post_id")
     .notNull()
     .references(() => posts.id, { onDelete: "cascade" }),
-  userId: integer("user_id")
+  userId: integer("user_id") // 👈 Look here
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
 });

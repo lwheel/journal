@@ -166,13 +166,14 @@ postRoutes.post(
   zValidator("json", createPostSchema),
   async (c) => {
     const { content } = c.req.valid("json");
-    const user = c.get("user");
+    const user = c.get("user"); // Get the authenticated user from the context
+
     const newPost = await db
       .insert(posts)
       .values({
         content,
         date: new Date(),
-        userId: user!.id,
+        userId: user!.id, // Associate the post with the authenticated user
       })
       .returning()
       .get();
@@ -180,6 +181,7 @@ postRoutes.post(
     return c.json(newPost);
   },
 );
+
 
 // Update a post by id
 postRoutes.patch(
