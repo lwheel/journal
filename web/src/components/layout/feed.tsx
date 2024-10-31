@@ -1,3 +1,4 @@
+// web/src/components/layout/feed.tsx
 import Header from "./header";
 import { useStore } from "@nanostores/react";
 import { $showAddPost, $showAddComment } from "@/lib/store";
@@ -6,7 +7,7 @@ import Posts from "@/components/post/posts";
 import AddComment from "@/components/comment/add-comment";
 import Comments from "@/components/comment/comments";
 
-const Feed = ({ postId }: { postId: string | null }) => {
+const Feed = ({ postId }: { postId: string | null }) => { // 👀 Look here
   const showNewPostEditor = useStore($showAddPost);
   const showNewCommentEditor = useStore($showAddComment);
 
@@ -19,6 +20,8 @@ const Feed = ({ postId }: { postId: string | null }) => {
       </div>
     );
   }
+
+  // 👆 Look here 👇
 
   return (
     <div className="flex flex-col w-full min-h-screen border-x">

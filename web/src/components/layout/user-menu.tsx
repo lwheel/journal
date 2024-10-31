@@ -1,7 +1,7 @@
-import { openPage } from "@nanostores/router";
-import { Button } from "../ui/button";
-import { $router } from "@/lib/router";
 import useAuth from "@/hooks/use-auth";
+import { Button } from "../ui/button";
+import { openPage } from "@nanostores/router";
+import { $router } from "@/lib/router";
 
 const UserMenu = () => {
   const { user, logout } = useAuth();
@@ -13,17 +13,23 @@ const UserMenu = () => {
 
   if (!user.name) {
     return (
-      <div className="space-y-2 m-3">
-        <div>Welcome to Posts!</div>
-        <Button onClick={navigateToLogin}>Sign in</Button>
+      <div className="m-3 space-y-2">
+        <div className="text-sm font-medium text-foreground">
+          {`Welcome to Posts!`}
+        </div>
+        <Button variant={"default"} onClick={navigateToLogin}>
+          Sign in
+        </Button>
       </div>
     );
   }
 
   return (
-    <div className="space-y-2 m-3">
-      <div>{`Welcome, ${user.name}!`}</div>
-      <Button variant={"secondary"} onClick={() => logout()}>
+    <div className="m-3 space-y-2">
+      <div className="text-sm font-medium text-foreground">
+        {`Welcome ${user.name}!`}
+      </div>
+      <Button variant={"secondary"} onClick={logout}>
         Sign out
       </Button>
     </div>

@@ -1,9 +1,9 @@
-import useAuth from "@/hooks/use-auth";
-import { $router } from "@/lib/router";
-import { getPagePath, redirectPage } from "@nanostores/router";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import useAuth from "@/hooks/use-auth";
+import { getPagePath, redirectPage } from "@nanostores/router";
+import { $router } from "@/lib/router";
 
 const Register = () => {
   const { register } = useAuth();
@@ -20,49 +20,66 @@ const Register = () => {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="text-3xl font-bold text-center">
-        Register a new account
+    <div className="w-full max-w-sm space-y-8">
+      <div>
+        <h2 className="text-3xl font-bold tracking-tight text-center text-foreground">
+          Create a new account
+        </h2>
+        <p className="mt-2 text-sm text-center text-muted-foreground">
+          Or{" "}
+          <a
+            href={getPagePath($router, "login")}
+            className="font-medium text-primary hover:text-primary/80 hover:underline"
+          >
+            sign in to your existing account
+          </a>
+        </p>
       </div>
-      <p className="text-center">
-        Or{" "}
-        <a href={getPagePath($router, "login")} className="hover:underline">
-          sign into an existing account
-        </a>
-      </p>
-      <form
-        className="flex flex-col gap-3"
-        onSubmit={handleFormSubmit}
-        method="POST"
-      >
-        <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          name="name"
-          placeholder="Enter your full name"
-          required
-          type="text"
-          autoComplete="name"
-        />
-        <Label htmlFor="username">Username</Label>
-        <Input
-          id="username"
-          name="username"
-          placeholder="Enter username"
-          required
-          type="text"
-          autoComplete="username"
-        />
-        <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          name="password"
-          placeholder="Enter password"
-          required
-          type="password"
-          autoComplete="password"
-        />
-        <Button type="submit">Sign up</Button>
+      <form className="space-y-6" onSubmit={handleFormSubmit} method="POST">
+        <div>
+          <Label htmlFor="name">Name</Label>
+          <div className="mt-1">
+            <Input
+              id="name"
+              name="name"
+              type="text"
+              autoComplete="name"
+              required
+              placeholder="Enter your name"
+            />
+          </div>
+        </div>
+        <div>
+          <Label htmlFor="username">Username</Label>
+          <div className="mt-1">
+            <Input
+              id="username"
+              name="username"
+              type="text"
+              autoComplete="username"
+              required
+              placeholder="Enter a username"
+            />
+          </div>
+        </div>
+        <div>
+          <Label htmlFor="password">Password</Label>
+          <div className="mt-1">
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              placeholder="Enter a password"
+            />
+          </div>
+        </div>
+        <div>
+          <Button type="submit" className="w-full">
+            Sign up
+          </Button>
+        </div>
       </form>
     </div>
   );

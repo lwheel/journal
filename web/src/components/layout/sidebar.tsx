@@ -1,5 +1,5 @@
+// web/src/components/layout/sidebar.tsx
 import {
-  ChatBubbleIcon,
   HomeIcon,
   MagnifyingGlassIcon,
   PlusCircledIcon,
@@ -12,43 +12,18 @@ import {
   toggleAddPost,
   toggleAddComment,
 } from "@/lib/store";
-import { $router } from "@/lib/router";
-import { openPage } from "@nanostores/router";
-import useAuth from "@/hooks/use-auth";  // 👈 Look here
-import { toast } from "@/components/ui/use-toast"; // 👈 Look here
- 
+import { $router } from "@/lib/router"; // 👀 Look here
+
 const Sidebar = () => {
-  const page = useStore($router);
+  const page = useStore($router); // 👀 Look here
   const showAddPost = useStore($showAddPost);
   const showAddComment = useStore($showAddComment);
-  const { user } = useAuth(); // 👈 Look here
- 
-  // Look here 👇
-  const authGuard = () => {
-    if (user.username) return true;
-    toast({
-      variant: "destructive",
-      title: "Sorry! You need to be signed in to do that 🙁",
-      description: "Please sign in or create an account to continue.",
-    });
-    return false;
-  };
- 
-  const navigateHome = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    openPage($router, "home");
-  };
- 
-  if (!page) return null;
- 
+
+  if (!page) return null; // 👀 Look here
+
   return (
     <div className="flex flex-col items-end p-2 space-y-2">
-      <Button
-        aria-label={"Home"}
-        variant="ghost"
-        size="icon"
-        onClick={navigateHome}
-      >
+      <Button aria-label={"Home"} variant="ghost" size="icon">
         <HomeIcon className="w-5 h-5" />
       </Button>
       <Button aria-label={"Search"} variant="ghost" size="icon">
@@ -60,26 +35,27 @@ const Sidebar = () => {
           variant="default"
           size="icon"
           onClick={() => {
-            authGuard() && toggleAddPost(); // 👈 Look here
+            toggleAddPost();
           }}
         >
           <PlusCircledIcon className="w-5 h-5" />
         </Button>
       )}
+      {/* 👆 Look here 👇 */}
       {page.route === "post" && !showAddComment && (
         <Button
           aria-label={"Make a Comment"}
-          variant="default"
+          variant="destructive"
           size="icon"
           onClick={() => {
-            authGuard() && toggleAddComment(); // 👈 Look here
+            toggleAddComment();
           }}
         >
-          <ChatBubbleIcon className="w-5 h-5" />
+          <PlusCircledIcon className="w-5 h-5" />
         </Button>
       )}
     </div>
   );
 };
- 
+
 export default Sidebar;

@@ -1,4 +1,4 @@
-import { Lucia, TimeSpan } from "lucia";
+import { Lucia } from "lucia";
 import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
 import { db } from "./index";
 import { sessions, users } from "./schema";
@@ -6,14 +6,13 @@ import { sessions, users } from "./schema";
 const adapter = new DrizzleSQLiteAdapter(db, sessions, users);
 
 export const lucia = new Lucia(adapter, {
-  sessionCookie: {
-    attributes: {
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
-    },
-  },
-  sessionExpiresIn: new TimeSpan(1, "h"), // expires in 2 days
-});
+   sessionCookie: {
+     attributes: {
+       secure: process.env.NODE_ENV === "production",
+       sameSite: "none",
+     },
+   },
+  });
 
 declare module "lucia" {
   interface Register {

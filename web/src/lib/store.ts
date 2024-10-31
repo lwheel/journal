@@ -1,7 +1,10 @@
 import { atom } from "nanostores";
 import { persistentMap } from "@nanostores/persistent";
-import type { CommentType, PostType, UserType } from "@/data/types";
+import type { CommentType, PostType} from "@/data/types";
 import { logger } from "@nanostores/logger";
+import { map } from "nanostores";
+import type { UserType } from "@/data/types";
+
 
 const DEBUG = true;
 
@@ -86,7 +89,7 @@ const defaultUser: UserType = {
   name: "",
   username: "",
 };
-export const $user = persistentMap<UserType>("user:", defaultUser);
+export const $user = map<UserType>(defaultUser);
 
 export function setUser(user: UserType) {
   $user.set(user);

@@ -3,9 +3,10 @@ import Sidebar from "@/components/layout/sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { useStore } from "@nanostores/react";
 import { $router } from "@/lib/router";
-import Login from "./pages/login";
-import Register from "./pages/register";
+import Login from "./pages/login"; // 👈 Look here for the changes
+import Register from "./pages/register"; // 👈 Look here for the changes
 import UserMenu from "./components/layout/user-menu";
+
 
 function App() {
   const page = useStore($router);
@@ -18,6 +19,7 @@ function App() {
     );
   }
 
+  // 👀 Look here for the changes
   if (page.route === "login" || page.route === "register") {
     return (
       <div className="flex items-center justify-center min-h-dvh">
@@ -36,9 +38,7 @@ function App() {
         {page.route === "home" && <Feed postId={null} />}
         {page.route === "post" && <Feed postId={page.params.postId} />}
       </div>
-      <div className="flex-1">
-        <UserMenu />
-      </div>
+      <div className="flex-1"><UserMenu /></div>
       <Toaster />
     </div>
   );

@@ -12,15 +12,15 @@ const app = new Hono<Context>();
 
 app.use(logger());
 app.use(
-  "/*",
-  cors({
-    origin: (origin) => origin, // Allow any origin
-    credentials: true,
-    allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTION"],
-    allowHeaders: ["Content-Type", "Authorization"],
-    exposeHeaders: ["Set-Cookie"],
-  }),
-);
+     "/*",
+   cors({
+     origin: (origin) => origin, // Allow any origin
+     credentials: true, // Allow credentials
+     allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+     allowHeaders: ["Content-Type", "Authorization"],
+     exposeHeaders: ["Set-Cookie"],
+   }),
+ );
 
 app.use(auth);
 
