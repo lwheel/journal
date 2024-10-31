@@ -2,7 +2,7 @@ import type { PostType as PostType } from "@/data/types";
 import PostActions from "./post-actions";
 import { useState } from "react";
 import EditPost from "./edit-post";
-import Author from "../shared/author";
+import Author from "../shared/author"; // 👈 Look here
 
 const Post = ({ post }: { post: PostType }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -24,12 +24,10 @@ const Post = ({ post }: { post: PostType }) => {
               minute: "numeric",
             })}
           </h4>
-          <Author author={post.author} />
+          <Author author={post.author} className="" /> 
         </div>
-
         <PostActions post={post} setIsEditing={setIsEditing} />
       </div>
-
       <p className="p-4">{post.content}</p>
     </div>
   );

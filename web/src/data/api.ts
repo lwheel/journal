@@ -70,7 +70,7 @@ export const fetchPosts = async (
     await response.json();
   return { data, total };
 };
- 
+
 // Fetch all comments for a post
 export const fetchComments = async (
   postId: string,
@@ -91,16 +91,19 @@ export const fetchComments = async (
   return data;
 };
 
-// Delete a post by id
+
 export const deletePost = async (id: string): Promise<boolean> => {
-  const response = await fetch(`${API_URL}/posts/${id}`, { method: "DELETE" });
+  const response = await fetch(`${API_URL}/posts/${id}`, {
+    method: "DELETE",
+    credentials: "include",  // Add this line
+  });
   if (!response.ok) {
     throw new Error(`API request failed! with status: ${response.status}`);
   }
   return true;
 };
 
-// Create a post
+
 export const createPost = async (content: string): Promise<PostType> => {
   const response = await fetch(`${API_URL}/posts`, {
     method: "POST",
@@ -108,6 +111,7 @@ export const createPost = async (content: string): Promise<PostType> => {
     body: JSON.stringify({
       content,
     }),
+    credentials: "include",  // Add this line
   });
   if (!response.ok) {
     throw new Error(`API request failed! with status: ${response.status}`);
@@ -116,7 +120,6 @@ export const createPost = async (content: string): Promise<PostType> => {
   return data;
 };
 
-// Edit a post
 export const editPost = async (
   id: string,
   content: string,
@@ -125,6 +128,7 @@ export const editPost = async (
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ content }),
+    credentials: "include",  // Add this line
   });
   if (!response.ok) {
     throw new Error(`API request failed! with status: ${response.status}`);
@@ -132,7 +136,6 @@ export const editPost = async (
   const data: PostType = await response.json();
   return data;
 };
-
 
 
 // Delete a comment for a post
@@ -152,7 +155,6 @@ export const deleteComment = async (
   return true;
 };
 
-// Create a comment for a post
 export const createComment = async (
   postId: string,
   content: string,
@@ -163,6 +165,7 @@ export const createComment = async (
     body: JSON.stringify({
       content,
     }),
+    credentials: "include",  // Add this line
   });
   if (!response.ok) {
     throw new Error(`API request failed! with status: ${response.status}`);
@@ -171,7 +174,7 @@ export const createComment = async (
   return data;
 };
 
-// Edit a comment for a post
+
 export const editComment = async (
   postId: string,
   commentId: string,
@@ -183,6 +186,7 @@ export const editComment = async (
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content }),
+      credentials: "include",  // Add this line
     },
   );
   if (!response.ok) {

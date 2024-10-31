@@ -7,17 +7,17 @@ import {
   $hasMorePosts, 
   $enableFilter  // 👈 Look here
 } from "@/lib/store"; 
- 
+
 const Posts = () => {
   const currentPage = useStore($currentPage);
   const hasMorePosts = useStore($hasMorePosts);
   const enableFilter = useStore($enableFilter); // 👈 Look here
   const { posts, loadPosts, isLoading } = useQueryPosts();
- 
+
   const loadMorePosts = () => {
     loadPosts(currentPage + 1);
   };
- 
+
   return (
     <div className="space-y-4">
       <InfiniteScroll
@@ -33,7 +33,5 @@ const Posts = () => {
     </div>
   );
 };
- 
-export default Posts;
- 
 
+export default Posts;

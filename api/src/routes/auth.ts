@@ -49,6 +49,7 @@ authRoutes.post("/sign-in",
 );
 
 
+
 authRoutes.post("/sign-up", 
   zValidator("json", signUpSchema), 
   async (c) => {

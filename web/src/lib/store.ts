@@ -100,7 +100,7 @@ export function clearUser() {
 }
 
 export const $enableFilter = atom(false); // Enable filter to show my posts/comments only
- 
+
 export function setEnableFilter(enable: boolean) {
   $enableFilter.set(enable);
 }

@@ -18,7 +18,6 @@ const postRoutes = new Hono<Context>();
 // Get all posts with optional sorting, filtering, searching, and pagination
 postRoutes.get(
   "/posts",
-  authGuard, // 👈 Look here
   zValidator("query", queryParamsSchema),
   async (c) => {
     const {
@@ -42,7 +41,6 @@ postRoutes.get(
 
       if (!user) {
         throw new HTTPException(404, { message: "User not found" });
-        // throw new HTTPException(400, { message: "Invalid username" });
       }
 
       whereClause.push(eq(posts.userId, user.id));
@@ -159,28 +157,33 @@ postRoutes.delete(
   },
 );
 
-// Create a new post
 postRoutes.post(
   "/posts",
   authGuard,
   zValidator("json", createPostSchema),
   async (c) => {
-    const { content } = c.req.valid("json");
-    const user = c.get("user"); // Get the authenticated user from the context
+    try {
+      const { content } = c.req.valid("json");
+      const user = c.get("user"); // Get the authenticated user from the context
 
-    const newPost = await db
-      .insert(posts)
-      .values({
-        content,
-        date: new Date(),
-        userId: user!.id, // Associate the post with the authenticated user
-      })
-      .returning()
-      .get();
+      const newPost = await db
+        .insert(posts)
+        .values({
+          content,
+          date: new Date(),
+          userId: user!.id, // Associate the post with the authenticated user
+        })
+        .returning()
+        .get();
 
-    return c.json(newPost);
+      return c.json(newPost);
+    } catch (error) {
+      console.error("Error inserting post:", error);
+      throw new HTTPException(500, { message: "Failed to create post" });
+    }
   },
 );
+
 
 
 // Update a post by id

@@ -6,7 +6,7 @@ import { openPage } from "@nanostores/router";
 import { $router } from "@/lib/router";
 import useAuth from "@/hooks/use-auth";
 import { toast } from "@/components/ui/use-toast"; // 👈 Look here
- 
+
 const PostActions = ({
   post,
   setIsEditing,
@@ -16,7 +16,7 @@ const PostActions = ({
 }) => {
   const { user } = useAuth();
   const showAction = user && user.username === post.author.username;
- 
+
   // Look here 👇
   const authGuard = () => {
     if (user.username) return true;
@@ -27,12 +27,12 @@ const PostActions = ({
     });
     return false;
   };
- 
+
   const navigateToCommentsView = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     authGuard() && openPage($router, "post", { postId: post.id }); // 👈 Look here
   };
- 
+
   return (
     <div className="flex justify-end">
       <Button variant={"ghost"} size={"icon"} onClick={navigateToCommentsView}>
@@ -51,6 +51,5 @@ const PostActions = ({
     </div>
   );
 };
- 
-export default PostActions;
 
+export default PostActions;

@@ -11,13 +11,13 @@ import {
 } from "@/lib/store";
 import { toast } from "@/components/ui/use-toast";
 import useAuth from "@/hooks/use-auth"; // 👈 Look here
- 
+
 function useQueryPosts() {
   const posts = useStore($posts);
   const enableFilter = useStore($enableFilter); // 👈 Look here
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth(); // 👈 Look here
- 
+
   const loadPosts = async (page: number = 1, limit: number = 20) => {
     setIsLoading(true);
     try {
@@ -45,13 +45,12 @@ function useQueryPosts() {
       setIsLoading(false);
     }
   };
- 
+
   useEffect(() => {
     loadPosts(1); // Reset to first page when filter changes
   }, [enableFilter]); // 👈 Look here
- 
+
   return { posts, loadPosts, isLoading };
 }
- 
-export default useQueryPosts;
 
+export default useQueryPosts;
