@@ -3,12 +3,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { createPost } from "@/data/api";
- import { addPost } from "@/lib/store";
+import { addPost } from "@/lib/store";
 
 type AddPostProps = {
   setShowAddPost: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
 
  const AddPost = ({ setShowAddPost }: AddPostProps) => {
   const [content, setContent] = useState("");

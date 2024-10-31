@@ -12,17 +12,17 @@ import {
   import { Button } from "@/components/ui/button";
   import { TrashIcon } from "@radix-ui/react-icons";
   import { PostType } from "@/data/types";
-  import { deletePost } from "@/data/api";
- import { removePost } from "@/lib/store";
+ import useMutationPosts from "@/hooks/use-mutation-posts";
 
   type DeletePostDialogProps = {
     post: PostType;
   };
 
- const DeletePostDialog = ({ post }: DeletePostDialogProps) => {
+  const DeletePostDialog = ({ post }: DeletePostDialogProps) => {
+    const { deletePostById } = useMutationPosts();
+
     const handleDelete = async () => {
-      await deletePost(post.id);
-     removePost(post.id);
+     deletePostById(post.id);
     };
 
     return (

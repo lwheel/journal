@@ -2,18 +2,18 @@ import { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { editPost } from "@/data/api";
 import { PostType } from "@/data/types";
- import { updatePostContent } from "@/lib/store";
+import useMutationPosts from "@/hooks/use-mutation-posts";
 
 type EditPostProps = {
   post: PostType;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
- const EditPost = ({ post, setIsEditing }: EditPostProps) => {
+const EditPost = ({ post, setIsEditing }: EditPostProps) => {
   const [id, setId] = useState("");
   const [content, setContent] = useState("");
+   const { updatePost } = useMutationPosts();
 
   useEffect(() => {
     if (post && post.id !== id && post.content !== content) {
@@ -29,12 +29,9 @@ type EditPostProps = {
 
   const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (content) {
-      await editPost(id, content);
-       updatePostContent(id, content);
+       updatePost(id, content);
       setContent("");
       setIsEditing(false);
-    }
   };
 
   const handleCancel = () => {
