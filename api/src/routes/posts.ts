@@ -2,6 +2,10 @@ import { Hono } from "hono";
 import { db } from "../db";
 import { posts } from "../db/schema";
 import { eq } from "drizzle-orm";
+import { createPostSchema } from "../validators/schemas";
+import { zValidator } from "@hono/zod-validator"; 
+import { updatePostSchema } from "../validators/schemas";
+import { getPostSchema } from "../validators/schemas";
 
 const postsRoute = new Hono();
 
@@ -19,8 +23,10 @@ postsRoute.get("/posts", async (c) => {
   });
 
 // GET a specific post by ID
-postsRoute.get("/posts/:id", async (c) => {
-    const id = parseInt(c.req.param("id"));
+postsRoute.get("/posts/:id", 
+    zValidator("param", getPostSchema), 
+    async (c) => {
+        const { id } = c.req.valid("param");
     try {
       const post = await db.select().from(posts).where(eq(posts.id, id)).get();
       if (!post) {
@@ -35,8 +41,10 @@ postsRoute.get("/posts/:id", async (c) => {
 
 
 // DELETE a post
-postsRoute.delete("/posts/:id", async (c) => {
-    const id = parseInt(c.req.param("id"));
+postsRoute.delete("/posts/:id", 
+    zValidator("param", getPostSchema), 
+    async (c) => {
+        const { id } = c.req.valid("param");
     try {
       const deletedPost = await db
         .delete(posts)
@@ -54,8 +62,11 @@ postsRoute.delete("/posts/:id", async (c) => {
   });
 
 // POST a new post
-postsRoute.post("/posts", async (c) => {
-  const { content } = await c.req.json();
+postsRoute.post(
+    "/posts",
+    zValidator("json", createPostSchema),
+     async (c) => {
+        const { content } = c.req.valid("json");
   try {
     const newPost = await db
       .insert(posts)
@@ -74,9 +85,12 @@ postsRoute.post("/posts", async (c) => {
 
 
 // PATCH (update) a post
-postsRoute.patch("/posts/:id", async (c) => {
-    const id = parseInt(c.req.param("id"));
-    const { content } = await c.req.json();
+postsRoute.patch("/posts/:id", 
+    zValidator("param", getPostSchema), 
+    zValidator("json", updatePostSchema), 
+    async (c) => {
+        const { id } = c.req.valid("param"); // 👀 Look here
+        const { content } = c.req.valid("json");
     try {
       const updatedPost = await db
         .update(posts)
