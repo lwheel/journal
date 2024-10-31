@@ -18,6 +18,9 @@ importers:
       '@types/node':
         specifier: ^20.11.17
         version: 20.17.3
+      prettier:
+        specifier: 3.3.3
+        version: 3.3.3
       tsx:
         specifier: ^4.7.1
         version: 4.19.2
@@ -194,6 +197,11 @@ packages:
     resolution: {integrity: sha512-f+2Ec9JAzabT61pglDiLJcF/DjiSefZkjCn9bzm1cYLGkD5ExJ3Jnv93ax9h0bn7UPLHF81KktoyjdQfWI2n1Q==}
     engines: {node: '>=16.9.0'}
 
+  prettier@3.3.3:
+    resolution: {integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==}
+    engines: {node: '>=14'}
+    hasBin: true
+
   resolve-pkg-maps@1.0.0:
     resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
 
@@ -322,6 +330,8 @@ snapshots:
       resolve-pkg-maps: 1.0.0
 
   hono@4.6.8: {}
+
+  prettier@3.3.3: {}
 
   resolve-pkg-maps@1.0.0: {}
 
