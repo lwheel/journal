@@ -1,6 +1,6 @@
 import { hash } from "@node-rs/argon2";
 import { db, connection } from "./index";
-import { comments, posts, users } from "./schema";
+import { posts, users } from "./schema";
 import { faker } from "@faker-js/faker";
 import { sql } from "drizzle-orm";
 import { hashOptions } from "../routes/auth";
@@ -10,13 +10,12 @@ async function seed() {
 
   // Clean the tables
   console.log("Cleaning existing data...");
-  await db.delete(comments);
   await db.delete(posts);
   await db.delete(users);
 
   // Reset the auto-increment counters
   await db.run(
-    sql`DELETE FROM sqlite_sequence WHERE name IN ('posts', 'comments', 'users')`,
+    sql`DELETE FROM sqlite_sequence WHERE name IN ('posts', 'users')`,
   );
 
   console.log("Inserting new seed data...");
@@ -71,22 +70,6 @@ async function seed() {
       .returning()
       .get();
 
-    // Insert 1-20 comments for each post
-    const numComments = faker.number.int({ min: 1, max: 20 });
-    for (let j = 1; j <= numComments; j++) {
-      const randomKeywords = faker.helpers.arrayElements(sampleKeywords, {
-        min: 1,
-        max: 3,
-      });
-      const randomUser = faker.helpers.arrayElement(sampleUsers);
-      await db.insert(comments).values({
-        content: `Comment #${j} for post #${i} ${randomKeywords.join(" ")}`,
-        date: faker.date.recent({
-          days: 3,
-        }),
-        postId: post.id,
-        userId: randomUser.id,
-      });
     }
   }
 

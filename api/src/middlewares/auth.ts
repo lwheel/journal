@@ -13,7 +13,7 @@ export const auth = async (c: Context, next: Next) => {
 
   const { session, user } = await lucia.validateSession(sessionId);
 
-   console.log("auth middleware", { session, user }); // Uncomment this line to debug
+   console.log("auth middleware", { session, user }); // Unhide this line to debug
 
   if (!session) {
     const blankSessionCookie = lucia.createBlankSessionCookie();

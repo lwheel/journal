@@ -28,14 +28,10 @@ const PostActions = ({
     return false;
   };
 
-  const navigateToCommentsView = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    authGuard() && openPage($router, "post", { postId: post.id }); // 👈 Look here
-  };
 
   return (
     <div className="flex justify-end">
-      <Button variant={"ghost"} size={"icon"} onClick={navigateToCommentsView}>
+      <Button variant={"ghost"} size={"icon"}>
         <ChatBubbleIcon className="w-4 h-4" />
       </Button>
       {showAction && (

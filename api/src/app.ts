@@ -1,6 +1,5 @@
 import { Hono } from "hono";
 import postRoutes from "./routes/posts";
-import commentRoutes from "./routes/comments";
 import authRoutes from "./routes/auth";
 import { HTTPException } from "hono/http-exception";
 import { cors } from "hono/cors";
@@ -30,7 +29,6 @@ app.get("/", (c) => {
 
 app.route("/", authRoutes);
 app.route("/", postRoutes);
-app.route("/", commentRoutes);
 
 app.onError((err, c) => {
   console.error(`${err}`);

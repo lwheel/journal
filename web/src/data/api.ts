@@ -1,5 +1,5 @@
 import { API_URL } from "../env";
-import type { CommentType, PostType} from "./types";
+import type {PostType} from "./types";
 import type { UserType } from "./types";
 
 // Sign up a user
@@ -71,26 +71,6 @@ export const fetchPosts = async (
   return { data, total };
 };
 
-// Fetch all comments for a post
-export const fetchComments = async (
-  postId: string,
-  page: number = 1,
-  limit: number = 20,
-  username?: string, // 👈 Look here
-): Promise<CommentType[]> => {
-  const response = await fetch(
-    `${API_URL}/posts/${postId}/comments?sort=desc&page=${page}&limit=${limit}${
-      username ? `&username=${username}` : "" // 👈 Look here
-    }`,
-    { credentials: "include" },
-  );
-  if (!response.ok) {
-    throw new Error(`API request failed! with status: ${response.status}`);
-  }
-  const { data }: { data: CommentType[] } = await response.json();
-  return data;
-};
-
 
 export const deletePost = async (id: string): Promise<boolean> => {
   const response = await fetch(`${API_URL}/posts/${id}`, {
@@ -134,64 +114,5 @@ export const editPost = async (
     throw new Error(`API request failed! with status: ${response.status}`);
   }
   const data: PostType = await response.json();
-  return data;
-};
-
-
-// Delete a comment for a post
-export const deleteComment = async (
-  postId: string,
-  commentId: string,
-): Promise<boolean> => {
-  const response = await fetch(
-    `${API_URL}/posts/${postId}/comments/${commentId}`,
-    {
-      method: "DELETE",
-    },
-  );
-  if (!response.ok) {
-    throw new Error(`API request failed! with status: ${response.status}`);
-  }
-  return true;
-};
-
-export const createComment = async (
-  postId: string,
-  content: string,
-): Promise<CommentType> => {
-  const response = await fetch(`${API_URL}/posts/${postId}/comments`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      content,
-    }),
-    credentials: "include",  // Add this line
-  });
-  if (!response.ok) {
-    throw new Error(`API request failed! with status: ${response.status}`);
-  }
-  const data: CommentType = await response.json();
-  return data;
-};
-
-
-export const editComment = async (
-  postId: string,
-  commentId: string,
-  content: string,
-): Promise<CommentType> => {
-  const response = await fetch(
-    `${API_URL}/posts/${postId}/comments/${commentId}`,
-    {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content }),
-      credentials: "include",  // Add this line
-    },
-  );
-  if (!response.ok) {
-    throw new Error(`API request failed! with status: ${response.status}`);
-  }
-  const data: CommentType = await response.json();
   return data;
 };

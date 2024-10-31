@@ -8,9 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useStore } from "@nanostores/react";
 import {
   $showAddPost,
-  $showAddComment,
   toggleAddPost,
-  toggleAddComment,
 } from "@/lib/store";
 import { $router } from "@/lib/router";
 import { openPage } from "@nanostores/router";
@@ -20,7 +18,6 @@ import { toast } from "@/components/ui/use-toast"; // 👈 Look here
 const Sidebar = () => {
   const page = useStore($router);
   const showAddPost = useStore($showAddPost);
-  const showAddComment = useStore($showAddComment);
   const { user } = useAuth(); // 👈 Look here
 
   // Look here 👇
@@ -66,18 +63,7 @@ const Sidebar = () => {
           <PlusCircledIcon className="w-5 h-5" />
         </Button>
       )}
-      {page.route === "post" && !showAddComment && (
-        <Button
-          aria-label={"Make a Comment"}
-          variant="default"
-          size="icon"
-          onClick={() => {
-            authGuard() && toggleAddComment(); // 👈 Look here
-          }}
-        >
-          <ChatBubbleIcon className="w-5 h-5" />
-        </Button>
-      )}
+      
     </div>
   );
 };

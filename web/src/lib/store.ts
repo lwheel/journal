@@ -1,6 +1,6 @@
 import { atom } from "nanostores";
 import { persistentMap } from "@nanostores/persistent";
-import type { CommentType, PostType} from "@/data/types";
+import type { PostType} from "@/data/types";
 import { logger } from "@nanostores/logger";
 import { map } from "nanostores";
 import type { UserType } from "@/data/types";
@@ -53,36 +53,6 @@ export function updatePostContent(id: string, content: string) {
   );
 }
 
-export const $comments = atom<CommentType[]>([]);
-
-export function setComments(comments: CommentType[]) {
-  $comments.set(comments);
-}
-
-export function addComment(comment: CommentType) {
-  $comments.set([comment, ...$comments.get()]);
-}
-
-export function removeComment(id: string) {
-  $comments.set($comments.get().filter((comment) => comment.id !== id));
-}
-
-export function updateCommentContent(id: string, content: string) {
-  $comments.set(
-    $comments.get().map((comment) => {
-      if (comment.id === id) {
-        return { ...comment, content: content };
-      }
-      return comment;
-    }),
-  );
-}
-
-export const $showAddComment = atom(false);
-
-export function toggleAddComment() {
-  $showAddComment.set(!$showAddComment.get());
-}
 
 const defaultUser: UserType = {
   id: "",
@@ -105,4 +75,4 @@ export function setEnableFilter(enable: boolean) {
   $enableFilter.set(enable);
 }
 
-DEBUG && logger({ $posts, $currentPage, $hasMorePosts, $comments, $user });
+DEBUG && logger({ $posts, $currentPage, $hasMorePosts, $user });
