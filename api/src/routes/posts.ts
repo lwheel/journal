@@ -1,22 +1,57 @@
 import { Hono } from "hono";
 import { db } from "../db";
 import { posts } from "../db/schema";
-import { eq } from "drizzle-orm";
 import {
   createPostSchema,
   updatePostSchema,
   getPostSchema,
+  queryParamsSchema
 } from "../validators/schemas";
 import { zValidator } from "@hono/zod-validator";
 import { HTTPException } from "hono/http-exception";
+import { eq, asc, desc, like, count, SQL, and } from "drizzle-orm";
 
 const postRoutes = new Hono();
 
 // Get all posts
-postRoutes.get("/posts", async (c) => {
-  const allPosts = await db.select().from(posts);
-  return c.json(allPosts);
-});
+postRoutes.get("/posts", zValidator("query", queryParamsSchema), async (c) => {
+    const { sort, search, page = 1, limit = 10 } = c.req.valid("query");
+   
+    const whereClause: (SQL | undefined)[] = [];
+    if (search) {
+      whereClause.push(like(posts.content, `%${search}%`));
+    }
+   
+    const orderByClause: SQL[] = [];
+    if (sort === "desc") {
+      orderByClause.push(desc(posts.date));
+    } else if (sort === "asc") {
+      orderByClause.push(asc(posts.date));
+    }
+   
+    const offset = (page - 1) * limit;
+   
+    const [allPosts, [{ totalCount }]] = await Promise.all([
+      db
+        .select()
+        .from(posts)
+        .where(and(...whereClause))
+        .orderBy(...orderByClause)
+        .limit(limit)
+        .offset(offset),
+      db
+        .select({ totalCount: count() })
+        .from(posts)
+        .where(and(...whereClause)),
+    ]);
+   
+    return c.json({
+      posts: allPosts,
+      page,
+      limit,
+      total: totalCount,
+    });
+  });
 
 // Get a single post by id
 postRoutes.get(
