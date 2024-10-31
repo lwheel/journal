@@ -1,11 +1,15 @@
 {
-    "name": "posts-api",
-    "version": "1.0.0",
-    "description": "Mock API for posts app",
-    "scripts": {
-      "start": "npx json-server@0.17.4 db.json"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC"
+  "name": "posts-api",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.3",
+    "hono": "^4.6.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "tsx": "^4.7.1"
   }
+}
