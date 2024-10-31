@@ -18,7 +18,7 @@ const postRoutes = new Hono<Context>();
 // Get all posts with optional sorting, filtering, searching, and pagination
 postRoutes.get(
   "/posts",
-  // authGuard,
+  authGuard, // 👈 Look here
   zValidator("query", queryParamsSchema),
   async (c) => {
     const {
@@ -93,7 +93,7 @@ postRoutes.get(
 // Get a single post by id
 postRoutes.get(
   "/posts/:id",
-  // authGuard,
+  authGuard,
   zValidator("param", getPostSchema),
   async (c) => {
     const { id } = c.req.valid("param");

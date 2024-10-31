@@ -22,7 +22,7 @@ app.use(
    }),
  );
 
-app.use(auth);
+ app.use("/*", auth);
 
 app.get("/", (c) => {
   return c.text("Hello Hono!");

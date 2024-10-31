@@ -1,5 +1,5 @@
-// web/src/components/layout/sidebar.tsx
 import {
+  ChatBubbleIcon,
   HomeIcon,
   MagnifyingGlassIcon,
   PlusCircledIcon,
@@ -13,17 +13,29 @@ import {
   toggleAddComment,
 } from "@/lib/store";
 import { $router } from "@/lib/router"; // 👀 Look here
+import { openPage } from "@nanostores/router"; // 👀 Look here
 
 const Sidebar = () => {
-  const page = useStore($router); // 👀 Look here
+  const page = useStore($router);
   const showAddPost = useStore($showAddPost);
   const showAddComment = useStore($showAddComment);
 
-  if (!page) return null; // 👀 Look here
+  // Look here 👇
+  const navigateHome = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    openPage($router, "home");
+  };
+
+  if (!page) return null;
 
   return (
     <div className="flex flex-col items-end p-2 space-y-2">
-      <Button aria-label={"Home"} variant="ghost" size="icon">
+      <Button
+        aria-label={"Home"}
+        variant="ghost"
+        size="icon"
+        onClick={navigateHome} // 👈 look here
+      >
         <HomeIcon className="w-5 h-5" />
       </Button>
       <Button aria-label={"Search"} variant="ghost" size="icon">
@@ -41,17 +53,16 @@ const Sidebar = () => {
           <PlusCircledIcon className="w-5 h-5" />
         </Button>
       )}
-      {/* 👆 Look here 👇 */}
       {page.route === "post" && !showAddComment && (
         <Button
           aria-label={"Make a Comment"}
-          variant="destructive"
+          variant="default" // 👈 look here
           size="icon"
           onClick={() => {
             toggleAddComment();
           }}
         >
-          <PlusCircledIcon className="w-5 h-5" />
+          <ChatBubbleIcon className="w-5 h-5" /> {/* 👈 look here */}
         </Button>
       )}
     </div>

@@ -11,13 +11,15 @@ export const auth = async (c: Context, next: Next) => {
     return next();
   }
 
-  const { user, session } = await lucia.validateSession(sessionId);
+  const { session, user } = await lucia.validateSession(sessionId);
 
-  console.log("Auth middleware", { user, session });
+  // console.log("auth middleware", { session, user }); // Uncomment this line to debug
 
   if (!session) {
-    const sessionCookie = lucia.createBlankSessionCookie();
-    c.header("Set-Cookie", sessionCookie.serialize());
+    const blankSessionCookie = lucia.createBlankSessionCookie();
+    c.header("Set-Cookie", blankSessionCookie.serialize(), {
+      append: true,
+    });
   }
 
   if (session && session.fresh) {
@@ -27,7 +29,7 @@ export const auth = async (c: Context, next: Next) => {
     });
   }
 
-  c.set("user", user);
   c.set("session", session);
+  c.set("user", user);
   return next();
 };

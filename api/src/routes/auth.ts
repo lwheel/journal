@@ -23,41 +23,31 @@ authRoutes.post("/sign-in",
   zValidator("json", signInSchema), 
   async (c) => {
     const { username, password } = c.req.valid("json");
- 
-    const user = await db
-      .select()
-      .from(users)
-      .where(eq(users.username, username))
-      .get();
- 
+
+    const user = await db.select().from(users).where(eq(users.username, username)).get();
+
     if (!user) {
-      throw new HTTPException(401, { 
-        message: "Incorrect username or password" 
-      });
+      throw new HTTPException(401, { message: "Incorrect username or password" });
     }
- 
+
     const validPassword = await verify(user.password_hash, password, hashOptions);
- 
+
     if (!validPassword) {
-      throw new HTTPException(401, {
-        message: "Incorrect username or password",
-      });
+      throw new HTTPException(401, { message: "Incorrect username or password" });
     }
- 
-    // Create a session (👀 look here)
+
     const session = await lucia.createSession(user.id, {});
- 
+    const sessionCookie = lucia.createSessionCookie(session.id);
+    c.header("Set-Cookie", sessionCookie.serialize(), { append: true });
+
     return c.json({
       message: "You have been signed in!",
-      session, // 👈 Include the session data in the response
-      user: {
-        id: user.id,
-        name: user.name,
-        username: user.username,
-      },
+      session,
+      user: { id: user.id, name: user.name, username: user.username },
     });
   }
 );
+
 
 authRoutes.post("/sign-up", 
   zValidator("json", signUpSchema), 
@@ -99,16 +89,15 @@ authRoutes.post("/sign-up",
 );
 
 authRoutes.post("/sign-out", async (c) => {
-  const cookie = c.req.header("Cookie") ?? "";
-  const sessionId = lucia.readSessionCookie(cookie);
-  if (!sessionId) {
+  const session = c.get("session");
+  if (!session) {
     throw new HTTPException(401, { message: "No session found" });
   }
- 
-  await lucia.invalidateSession(sessionId);
+
+  await lucia.invalidateSession(session.id);
   const sessionCookie = lucia.createBlankSessionCookie();
   c.header("Set-Cookie", sessionCookie.serialize()); // Remove the session cookie from the client
- 
+
   return c.json({ message: "You have been signed out!" });
 });
 
