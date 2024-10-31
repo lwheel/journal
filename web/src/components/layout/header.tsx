@@ -18,7 +18,7 @@ const Header = () => {
     if (page?.route === "post") {
       setLabel("Comments");
     } else {
-      setLabel("Posts");
+      setLabel("Entries");
     }
   }, [page]);
 
@@ -37,18 +37,6 @@ const Header = () => {
           onClick={() => setEnableFilter(true)}
         >{`My ${label}`}</Button>
       )}
-      <Button
-        variant={"link"}
-        className={cn({
-          underline: showUserFilter && !enableFilter,
-          "text-primary": !enableFilter,
-          "text-primary/60": enableFilter,
-        })}
-        disabled={!showUserFilter}
-        onClick={() => setEnableFilter(false)}
-      >
-        {`All ${label}`}
-      </Button>
     </div>
   );
 };

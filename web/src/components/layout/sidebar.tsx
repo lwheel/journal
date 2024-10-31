@@ -48,12 +48,9 @@ const Sidebar = () => {
       >
         <HomeIcon className="w-5 h-5" />
       </Button>
-      <Button aria-label={"Search"} variant="ghost" size="icon">
-        <MagnifyingGlassIcon className="w-5 h-5" />
-      </Button>
       {page.route === "home" && !showAddPost && (
         <Button
-          aria-label={"Make a Post"}
+          aria-label={"Make an Entry"}
           variant="default"
           size="icon"
           onClick={() => {

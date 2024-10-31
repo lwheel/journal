@@ -15,7 +15,7 @@ const UserMenu = () => {
     return (
       <div className="m-3 space-y-2">
         <div className="text-sm font-medium text-foreground">
-          {`Welcome to Posts!`}
+          {`Welcome to Your Journal!`}
         </div>
         <Button variant={"default"} onClick={navigateToLogin}>
           Sign in

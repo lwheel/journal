@@ -31,9 +31,6 @@ const PostActions = ({
 
   return (
     <div className="flex justify-end">
-      <Button variant={"ghost"} size={"icon"}>
-        <ChatBubbleIcon className="w-4 h-4" />
-      </Button>
       {showAction && (
         <Button
           variant={"ghost"}

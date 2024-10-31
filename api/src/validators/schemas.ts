@@ -4,7 +4,7 @@ export const createPostSchema = z.object({
   content: z
     .string()
     .min(1, "Content is required")
-    .max(240, "Content must be 240 characters or less"),
+    .max(7000, "Content must be 240 characters or less"),
 });
 
 export const updatePostSchema = createPostSchema.partial();
