@@ -12,7 +12,7 @@ const AddPost = () => {
   const { toast } = useToast();
 
   const cleanUp = () => {
-    setContent("");
+    setContent(""); // Reset content like in EditPost
     toggleAddPost();
   };
 
@@ -24,14 +24,22 @@ const AddPost = () => {
         description: `Please enter the content of your post.`,
       });
     } else {
-      await addNewPost(content);
-      cleanUp();
+      try {
+        await addNewPost(content);  // Wrap in try-catch for error handling
+        cleanUp(); // Only clean up after successful save
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error!",
+          description: "There was an issue adding your post. Please try again.",
+        });
+      }
     }
   };
 
   const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    savePost();
+    await savePost(); // Await to handle async operations properly
   };
 
   const handleSaveOnEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

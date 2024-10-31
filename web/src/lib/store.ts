@@ -35,7 +35,7 @@ export function setHasMorePosts(hasMore: boolean) {
 }
 
 export function addPost(post: PostType) {
-  $posts.set([post, ...$posts.get()]);
+  //$posts.set([post, ...$posts.get()]);
 }
 
 export function removePost(id: string) {

@@ -175,7 +175,7 @@ postRoutes.post(
         })
         .returning()
         .get();
-
+        console.log("complete posting");
       return c.json(newPost);
     } catch (error) {
       console.error("Error inserting post:", error);

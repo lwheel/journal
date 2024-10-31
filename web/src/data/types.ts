@@ -1,9 +1,10 @@
 export type PostType = {
-  id: string;
+  id: number;              // Match integer type from backend
   content: string;
-  date: string;
-  author: UserType;
+  date: number;            // Keep date as timestamp integer
+  userId: number;          // Use userId directly, without full UserType
 };
+
 
 
 export type UserType = {
